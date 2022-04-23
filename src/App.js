@@ -66,9 +66,9 @@ export const ResponsiveWrapper = styled.div`
 `;
 
 export const StyledLogo = styled.img`
-  width: 200px;
+  width: 100px;
   @media (min-width: 767px) {
-    width: 300px;
+    width: 200px;
   }
   transition: width 0.5s;
   transition: height 0.5s;
@@ -76,7 +76,7 @@ export const StyledLogo = styled.img`
 
 export const StyledImg = styled.img`
   box-shadow: 0px 5px 11px 2px rgba(0, 0, 0, 0.7);
-  border: 4px dashed var(--secondary);
+  border: 4px solid var(--third);
   background-color: var(--accent);
   border-radius: 100%;
   width: 200px;
@@ -87,6 +87,16 @@ export const StyledImg = styled.img`
     width: 300px;
   }
   transition: width 0.5s;
+`;
+
+export const StyledIcon = styled.img`
+  height: 50px;
+  width: 50px;
+`;
+export const IconHolder = styled.div`
+ display: flex;
+ justify-content: space-evenly;
+ gap: 30px;
 `;
 
 export const StyledLink = styled.a`
@@ -130,7 +140,7 @@ function App() {
     setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
     setClaimingNft(true);
     blockchain.smartContract.methods
-      .mint(mintAmount)
+      .mint(blockchain.account, mintAmount)
       .send({
         gasLimit: String(totalGasLimit),
         to: CONFIG.CONTRACT_ADDRESS,
@@ -185,6 +195,16 @@ function App() {
     SET_CONFIG(config);
   };
 
+  const twitterClicked = async () => {
+    window.location.href="https://twitter.com/_MetaPunks_";
+  }
+  const discordClicked = async () => {
+    window.location.href="https://discord.gg/nnThycyu";
+  }
+  const openseaClicked = async () => {
+    window.location.href="https://opensea.io/collection/metapunks-deployer";
+  }
+
   useEffect(() => {
     getConfig();
   }, []);
@@ -213,10 +233,10 @@ function App() {
             jc={"center"}
             ai={"center"}
             style={{
-              backgroundColor: "var(--accent)",
+              background: "#333333",
               padding: 24,
               borderRadius: 24,
-              border: "4px dashed var(--secondary)",
+              border: "4px solid var(--secondary)",
               boxShadow: "0px 5px 11px 2px rgba(0,0,0,0.7)",
             }}
           >
@@ -383,7 +403,7 @@ function App() {
           <s.TextDescription
             style={{
               textAlign: "center",
-              color: "var(--primary-text)",
+              color: "white",
             }}
           >
             Please make sure you are connected to the right network (
@@ -394,13 +414,27 @@ function App() {
           <s.TextDescription
             style={{
               textAlign: "center",
-              color: "var(--primary-text)",
+              color: "white",
             }}
           >
             We have set the gas limit to {CONFIG.GAS_LIMIT} for the contract to
             successfully mint your NFT. We recommend that you don't lower the
             gas limit.
           </s.TextDescription>
+        <IconHolder>
+          <StyledIcon src={"twitter.png"}  onClick={(e) => {
+                        e.preventDefault();
+                        twitterClicked();
+                      }}></StyledIcon> 
+                      <StyledIcon src={"opensea.png"} onClick={(e) => {
+                        e.preventDefault();
+                        openseaClicked();
+                      }}>
+                        </StyledIcon><StyledIcon src={"discord.png"} onClick={(e) => {
+                        e.preventDefault();
+                        discordClicked();
+                      }}></StyledIcon>
+          </IconHolder>
         </s.Container>
       </s.Container>
     </s.Screen>
